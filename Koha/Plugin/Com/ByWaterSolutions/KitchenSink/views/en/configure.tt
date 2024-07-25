@@ -1,6 +1,8 @@
 [% USE KohaDates %]
+[% PROCESS 'i18n.inc' %]
 [% INCLUDE 'doc-head-open.inc' %]
- <title>Koha: Kitchen Sink Plugin: Configuration</title>
+<title>Koha: Kitchen Sink Plugin: Configuration</title>
+<link rel="preload" href="/api/v1/contrib/kitchensink/static/configure.js" as="script">
 [% INCLUDE 'doc-head-close.inc' %]
 </head>
 <body>
@@ -74,5 +76,21 @@
             Plugin has never been upgraded.
         [% END %]
     </p>
+
+    <br />
+    <br />
+    <br />
+    <h5>All strings in the list below here are injected with javascript and translatable</h5>
+    <ul id="js_list">
+        <li>Basic template string</li>
+    </ul>
+
+    <script>
+        $(document).ready(function () {
+            $('#js_list').append('<li>' + _("Javascript injected from a script tag within the .tt file") + '</li>');
+        });
+    </script>
+    <script type="text/javascript" src="/api/v1/contrib/kitchensink/static/configure.js"></script>
+
 
 [% INCLUDE 'intranet-bottom.inc' %]

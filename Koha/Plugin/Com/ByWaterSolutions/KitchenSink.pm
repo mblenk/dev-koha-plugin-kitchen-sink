@@ -109,7 +109,7 @@ sub admin {
 
     my $cgi = $self->{'cgi'};
 
-    my $template = $self->get_template( { file => 'admin_example.tt' } );
+    my $template = $self->get_template( { file => $self->bundle_path . '/views/en/admin_example.tt' } );
 
     $self->output_html( $template->output() );
     return;
@@ -172,7 +172,7 @@ sub opac_online_payment_begin {
     my $cgi = $self->{'cgi'};
 
     my ( $template, $borrowernumber ) = get_template_and_user(
-        {   template_name   => abs_path( $self->mbf_path( 'opac_online_payment_begin.tt' ) ),
+        {   template_name   => $self->bundle_path . '/views/en/opac_online_payment_begin.tt' ,
             query           => $cgi,
             type            => 'opac',
             authnotrequired => 0,
@@ -205,8 +205,7 @@ sub opac_online_payment_end {
 
     my ( $template, $borrowernumber ) = get_template_and_user(
         {
-            template_name =>
-              abs_path( $self->mbf_path('opac_online_payment_end.tt') ),
+            template_name   => $self->bundle_path . '/views/en/opac_online_payment_end.tt',
             query           => $cgi,
             type            => 'opac',
             authnotrequired => 0,
@@ -333,7 +332,7 @@ sub configure {
     my $cgi = $self->{'cgi'};
 
     unless ( $cgi->param('save') ) {
-        my $template = $self->get_template({ file => 'configure.tt' });
+        my $template = $self->get_template({ file => $self->bundle_path . '/views/en/configure.tt' });
 
         ## Grab the values we already have for our settings, if any exist
         $template->param(
@@ -403,7 +402,7 @@ sub report_step1 {
     my ( $self, $args ) = @_;
     my $cgi = $self->{'cgi'};
 
-    my $template = $self->get_template({ file => 'report-step1.tt' });
+    my $template = $self->get_template({ file => $self->bundle_path . '/views/en/report-step1.tt' });
 
     my @libraries = Koha::Libraries->search;
     my @categories = Koha::Patron::Categories->search({}, {order_by => ['description']});
@@ -465,11 +464,11 @@ sub report_step2 {
     my $filename;
     if ( $output eq "csv" ) {
         print $cgi->header( -attachment => 'borrowers.csv' );
-        $filename = 'report-step2-csv.tt';
+        $filename = $self->bundle_path . '/views/en/report-step2-csv.tt';
     }
     else {
         print $cgi->header();
-        $filename = 'report-step2-html.tt';
+        $filename = $self->bundle_path . '/views/en/report-step2-html.tt';
     }
 
     my $template = $self->get_template({ file => $filename });
@@ -491,7 +490,7 @@ sub tool_step1 {
     my ( $self, $args ) = @_;
     my $cgi = $self->{'cgi'};
 
-    my $template = $self->get_template({ file => 'tool-step1.tt' });
+    my $template = $self->get_template({ file => $self->bundle_path . '/views/en/tool-step1.tt' });
 
     $self->output_html( $template->output() );
 }
@@ -500,7 +499,7 @@ sub tool_step2 {
     my ( $self, $args ) = @_;
     my $cgi = $self->{'cgi'};
 
-    my $template = $self->get_template({ file => 'tool-step2.tt' });
+    my $template = $self->get_template({ file => $self->bundle_path . '/views/en/tool-step2.tt' });
 
     my $borrowernumber = C4::Context->userenv->{'number'};
     my $borrower = Koha::Patrons->find( $borrowernumber );
@@ -536,7 +535,7 @@ sub schedule_greets {
 
     Koha::Plugin::Com::ByWaterSolutions::KitchenSink::Greeter->new->enqueue( { size => $count } );
 
-    my $template = $self->get_template( { file => 'greets_scheduled.tt' } );
+    my $template = $self->get_template( { file => $self->bundle_path . '/views/en/greets_scheduled.tt' } );
     $template->param( count => $count );
 
     $self->output_html( $template->output() );
